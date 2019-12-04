@@ -13144,6 +13144,9 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># nbi:hide_in</span>
+
+<span class="n">answers</span> <span class="o">=</span> <span class="p">[]</span>
+
 <span class="k">def</span> <span class="nf">create_multipleChoice_widget</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">correct_answer</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">correct_answer</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
         <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correct_answer</span><span class="p">)</span>
@@ -13163,23 +13166,26 @@ div#notebook {
         
     <span class="n">feedback_out</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
 
-<span class="c1">#     def check_selection(b):</span>
-<span class="c1">#         a = int(alternativ.value)</span>
-<span class="c1">#         if a==correct_answer_index:</span>
-<span class="c1">#             s = &#39;\x1b[6;30;42m&#39; + &quot;Riktig.&quot; + &#39;\x1b[0m&#39; +&quot;\n&quot; #green color</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             s = &#39;\x1b[5;30;41m&#39; + &quot;Feil. &quot; + &#39;\x1b[0m&#39; +&quot;\n&quot; #red color</span>
-<span class="c1">#         with feedback_out:</span>
-<span class="c1">#             clear_output()</span>
-<span class="c1">#             print(s)</span>
-<span class="c1">#         return</span>
+    <span class="k">def</span> <span class="nf">check_selection</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alternativ</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">alternativ</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">==</span><span class="n">correct_answer_index</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x1b</span><span class="s1">[6;30;42m&#39;</span> <span class="o">+</span> <span class="s2">&quot;Correct.&quot;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\x1b</span><span class="s1">[0m&#39;</span> <span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="c1">#green color</span>
+            <span class="n">answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x1b</span><span class="s1">[5;30;41m&#39;</span> <span class="o">+</span> <span class="s2">&quot;False. &quot;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\x1b</span><span class="s1">[0m&#39;</span> <span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="c1">#red color</span>
+            <span class="n">answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">feedback_out</span><span class="p">:</span>
+            <span class="n">clear_output</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span>
     
-<span class="c1">#     check = widgets.Button(description=&quot;submit&quot;)</span>
-<span class="c1">#     check.on_click(check_selection)</span>
+    <span class="n">check</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span><span class="p">)</span>
+    <span class="n">check</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">check_selection</span><span class="p">)</span>
     
     
-<span class="c1">#     return widgets.VBox([description_out, alternativ, check, feedback_out])</span>
-    <span class="k">return</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">description_out</span><span class="p">,</span> <span class="n">alternativ</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">description_out</span><span class="p">,</span> <span class="n">alternativ</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">feedback_out</span><span class="p">])</span>
+<span class="c1">#     return widgets.VBox([description_out, alternativ])</span>
     
 </pre></div>
 
@@ -13299,10 +13305,15 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># nbi:hide_in</span>
-<span class="n">A1</span> <span class="o">=</span> <span class="n">Q1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
-<span class="n">A2</span> <span class="o">=</span> <span class="n">Q2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
-<span class="n">A3</span> <span class="o">=</span> <span class="n">Q3</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">A1</span><span class="p">,</span> <span class="n">A2</span><span class="p">,</span> <span class="n">A3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">answers</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">answers</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Your result: &#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+<span class="n">result_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Check result&quot;</span><span class="p">)</span>
+<span class="n">result_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">get_result</span><span class="p">)</span>
+
+
+<span class="n">result_button</span>
 </pre></div>
 
     </div>
@@ -13317,29 +13328,26 @@ div#notebook {
 
     
 
+
+
+  <div class="output_subarea output_widget_view ">
+    <button class="js-nbinteract-widget">
+      Loading widgets...
+    </button>
+  </div>
+
+</div>
+
+<div class="output_area">
+
+    
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1 0 1
+<pre>Your result:  2/3
 </pre>
 </div>
 </div>
 
-</div>
-</div>
-
-  </div>
-
-  
-
-  <div class="
-      cell border-box-sizing code_cell rendered">
-    <div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 
